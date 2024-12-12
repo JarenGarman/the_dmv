@@ -42,4 +42,11 @@ class Facility
     applicant.license_data[:written] = true
     true
   end
+
+  def administer_road_test(applicant)
+    return false unless applicant.license_data[:written] && @services.include?('Road Test')
+
+    applicant.license_data[:license] = true
+    true
+  end
 end
