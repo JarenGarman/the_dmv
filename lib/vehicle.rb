@@ -8,8 +8,9 @@ class Vehicle
               :year,
               :make,
               :model,
-              :engine,
-              :registration_date
+              :engine
+
+  attr_accessor :registration_date, :plate_type
 
   def initialize(vehicle_details)
     @vin = vehicle_details[:vin]
@@ -20,7 +21,7 @@ class Vehicle
   end
 
   def antique?
-    Date.today.year - @year > 25
+    Date.today.year - @year > 25 # rubocop:disable Rails/Date
   end
 
   def electric_vehicle?
