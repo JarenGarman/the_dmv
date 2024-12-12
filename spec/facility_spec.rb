@@ -135,7 +135,7 @@ describe Facility do
       end
 
       context 'when the applicant is not old enough' do
-        subject(:applicant) { second_registrant }
+        subject(:applicant) { third_registrant }
 
         it 'does not administer test' do
           expect(facility.administer_written_test(applicant)).to be false
@@ -143,7 +143,7 @@ describe Facility do
       end
 
       context 'when the applicant is old enough' do
-        subject(:applicant) { third_registrant }
+        subject(:applicant) { second_registrant }
 
         context 'when the applicant does not have a permit' do
           it 'does not administer test' do
