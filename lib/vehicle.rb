@@ -20,7 +20,7 @@ class Vehicle
   end
 
   def antique?
-    Time.zone.today.year - @year > 25
+    Date.today.year - @year > 25
   end
 
   def electric_vehicle?
