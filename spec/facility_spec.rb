@@ -115,4 +115,58 @@ describe Facility do
       expect(second_facility.register_vehicle(bolt)).to be_nil
     end
   end
+
+  describe '#administer written test' do
+    let(:first_registrant) { Registrant.new('Bruce', 18, true) }
+    let(:second_registrant) { Registrant.new('Penny', 16) }
+    let(:third_registrant) { Registrant.new('Tucker', 15) }
+
+    context 'when the facility cannot administer written tests' do
+      it 'does not administer test' do
+        facility.administer_written_test(first_registrant)
+
+        expect(first_registrant.license_data).to eq({ written: false, license: false, renewed: false })
+      end
+    end
+
+    context 'when the facility can administer written tests' do
+      before do
+        facility.add_service('Written Test')
+      end
+
+      context 'when the applicant is not old enough' do
+        subject(:applicant) { second_registrant }
+
+        it 'does not administer test' do
+          expect(facility.administer_written_test(applicant)).to be false
+        end
+      end
+
+      context 'when the applicant is old enough' do
+        subject(:applicant) { third_registrant }
+
+        context 'when the applicant does not have a permit' do
+          it 'does not administer test' do
+            expect(facility.administer_written_test(applicant)).to be false
+          end
+        end
+
+        context 'when the applicant has a permit' do
+          before do
+            applicant.earn_permit
+          end
+
+          it 'administers test' do
+            expect(facility.administer_written_test(applicant)).to be true
+          end
+
+          it 'sets written to true' do
+            facility.administer_written_test(applicant)
+
+            expect(applicant.license_data).to eq({ written: true, license: false, renewed: false })
+          end
+        end
+      end
+    end
+  end
 end
