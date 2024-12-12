@@ -197,4 +197,34 @@ describe Facility do
       end
     end
   end
+
+  describe '#renew drivers license' do
+    let(:applicant) { Registrant.new('Bruce', 18, true) }
+
+    context 'when applicant is not licensed or facility does not offer service' do
+      it 'does not administer test' do
+        expect(facility.renew_drivers_license(applicant)).to be false
+      end
+    end
+
+    context 'when applicant is licensed and facility offers service' do
+      before do
+        facility.add_service('Written Test')
+        facility.add_service('Road Test')
+        facility.add_service('Renew License')
+        facility.administer_written_test(applicant)
+        facility.administer_road_test(applicant)
+      end
+
+      it 'renews license' do
+        expect(facility.renew_drivers_license(applicant)).to be true
+      end
+
+      it 'sets renewed to true' do
+        facility.administer_road_test(applicant)
+
+        expect(applicant.license_data).to eq({ written: true, license: true, renewed: true })
+      end
+    end
+  end
 end
