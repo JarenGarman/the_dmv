@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
 require 'date'
 
+# Stores information about a particular vehicle
 class Vehicle
   attr_reader :vin,
               :year,
               :make,
               :model,
-              :engine
+              :engine,
+              :registration_date
 
   def initialize(vehicle_details)
     @vin = vehicle_details[:vin]
@@ -16,7 +20,7 @@ class Vehicle
   end
 
   def antique?
-    Date.today.year - @year > 25
+    Time.zone.today.year - @year > 25
   end
 
   def electric_vehicle?
