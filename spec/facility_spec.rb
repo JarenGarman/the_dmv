@@ -169,4 +169,32 @@ describe Facility do
       end
     end
   end
+
+  describe '#administer road test' do
+    let(:applicant) { Registrant.new('Bruce', 18, true) }
+
+    context 'when applicant has not completed written test or facility does not offer service' do
+      it 'does not administer test' do
+        expect(facility.administer_road_test(applicant)).to be false
+      end
+    end
+
+    context 'when applicant has completed written test and facility offers service' do
+      before do
+        facility.add_service('Written Test')
+        facility.add_service('Road Test')
+        facility.administer_written_test(applicant)
+      end
+
+      it 'administers test' do
+        expect(facility.administer_road_test(applicant)).to be true
+      end
+
+      it 'sets license to true' do
+        facility.administer_road_test(applicant)
+
+        expect(applicant.license_data).to eq({ written: true, license: true, renewed: false })
+      end
+    end
+  end
 end
