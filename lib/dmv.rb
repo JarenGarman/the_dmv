@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
+# Stores information about facilities and services offered
 class Dmv
+  attr_reader :facilities
 
   def initialize
     @facilities = []
