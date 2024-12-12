@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Stores information about a particular facility
 class Facility
   attr_reader :name, :address, :phone, :services
 
@@ -8,7 +11,7 @@ class Facility
     @services = []
   end
 
-  def add_services(service)
+  def add_service(service)
     @services << service
   end
 end
