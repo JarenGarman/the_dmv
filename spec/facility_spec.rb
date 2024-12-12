@@ -221,7 +221,7 @@ describe Facility do
       end
 
       it 'sets renewed to true' do
-        facility.administer_road_test(applicant)
+        facility.renew_drivers_license(applicant)
 
         expect(applicant.license_data).to eq({ written: true, license: true, renewed: true })
       end
