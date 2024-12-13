@@ -13,7 +13,7 @@ describe VehicleFactory do
 
   describe '#create vehicles' do
     it 'returns array of vehicles' do
-      expect(factory.create_vehicles(DmvDataService.new.wa_ev_registrations).sample).to be_an_instance_of(Vehicle)
+      expect(factory.create_vehicles(DmvDataService.new.wa_ev_registrations).all?(Vehicle)).to be true
     end
   end
 end
