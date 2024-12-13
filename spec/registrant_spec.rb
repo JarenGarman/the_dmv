@@ -120,7 +120,7 @@ describe Registrant do
   describe '#earn_license' do
     let(:registrant) { described_class.new('Penny', 15) }
 
-    it 'sets permit to true' do
+    it 'sets license to true' do
       registrant.earn_license
 
       expect(registrant.license_data[:license]).to be true
@@ -130,7 +130,7 @@ describe Registrant do
   describe '#renew_license' do
     let(:registrant) { described_class.new('Penny', 15) }
 
-    it 'sets permit to true' do
+    it 'sets renewed to true' do
       registrant.renew_license
 
       expect(registrant.license_data[:renewed]).to be true
