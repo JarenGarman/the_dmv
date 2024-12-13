@@ -13,6 +13,7 @@ class Facility
     @services = []
     @registered_vehicles = []
     @collected_fees = 0
+    @fee_matrix = { regular: 100, antique: 25, ev: 200 }
   end
 
   def add_service(service)
@@ -23,14 +24,7 @@ class Facility
     return unless @services.include?('Vehicle Registration')
 
     vehicle.set_registration_date
-    case vehicle.plate_type
-    when :antique
-      @collected_fees += 25
-    when :ev
-      @collected_fees += 200
-    when :regular
-      @collected_fees += 100
-    end
+    @collected_fees += @fee_matrix[vehicle.plate_type]
     @registered_vehicles << vehicle
   end
 
