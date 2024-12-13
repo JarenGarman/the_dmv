@@ -11,7 +11,7 @@ describe VehicleFactory do
     it { is_expected.to be_an_instance_of(described_class) }
   end
 
-  describe '#create vehicles' do
+  describe '#create_vehicles' do
     it 'returns array of vehicles' do
       expect(factory.create_vehicles(DmvDataService.new.wa_ev_registrations).all?(Vehicle)).to be true
     end
