@@ -86,4 +86,32 @@ describe Vehicle do
       it { is_expected.to be false }
     end
   end
+
+  describe '#set_registration_date' do
+    it 'sets registration date to current date' do
+      cruz.set_registration_date
+
+      expect(cruz.registration_date).to eq(Date.today)
+    end
+  end
+
+  describe '#plate_type' do
+    context 'when vehicle is an antique' do
+      subject(:antique_plate) { camaro.plate_type }
+
+      it { is_expected.to eq(:antique) }
+    end
+
+    context 'when vehicle is an ev' do
+      subject(:ev_plate) { bolt.plate_type }
+
+      it { is_expected.to eq(:ev) }
+    end
+
+    context 'when vehicle is regular' do
+      subject(:regular_plate) { cruz.plate_type }
+
+      it { is_expected.to eq(:regular) }
+    end
+  end
 end
