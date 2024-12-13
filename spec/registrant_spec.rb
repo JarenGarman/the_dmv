@@ -106,4 +106,34 @@ describe Registrant do
       expect(registrant.permit?).to be true
     end
   end
+
+  describe '#pass_written' do
+    let(:registrant) { described_class.new('Penny', 15) }
+
+    it 'sets permit to true' do
+      registrant.pass_written
+
+      expect(registrant.license_data[:written]).to be true
+    end
+  end
+
+  describe '#earn_license' do
+    let(:registrant) { described_class.new('Penny', 15) }
+
+    it 'sets permit to true' do
+      registrant.earn_license
+
+      expect(registrant.license_data[:license]).to be true
+    end
+  end
+
+  describe '#renew_license' do
+    let(:registrant) { described_class.new('Penny', 15) }
+
+    it 'sets permit to true' do
+      registrant.renew_license
+
+      expect(registrant.license_data[:renewed]).to be true
+    end
+  end
 end
