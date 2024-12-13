@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'faraday'
 require 'json'
 
+# Grab data from external API
 class DmvDataService
   def load_data(source)
     response = Faraday.get(source)

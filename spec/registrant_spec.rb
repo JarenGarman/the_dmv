@@ -3,11 +3,6 @@
 require_relative 'spec_helper'
 
 describe Registrant do
-  before do
-    registrant1 = described_class.new('Bruce', 18, true)
-    registrant2 = described_class.new('Penny', 15)
-  end
-
   describe '#initialize' do
     context 'when registrant is licensed' do
       subject(:registrant) { described_class.new('Bruce', 18, true) }
@@ -44,7 +39,7 @@ describe Registrant do
         end
       end
 
-      describe '#license_data' do
+      describe '#license data' do
         subject(:license_data) { registrant.license_data }
 
         it { is_expected.not_to be_nil }
@@ -54,6 +49,7 @@ describe Registrant do
         end
       end
     end
+
     context 'when registrant is not licensed' do
       subject(:registrant) { described_class.new('Penny', 15) }
 
