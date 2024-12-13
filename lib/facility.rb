@@ -4,6 +4,7 @@ require 'date'
 
 # Stores information about a particular facility
 class Facility
+  @fee_matrix = { regular: 100, antique: 25, ev: 200 }.freeze
   attr_reader :name, :address, :phone, :services, :registered_vehicles, :collected_fees
 
   def initialize(facility_details)
@@ -13,7 +14,6 @@ class Facility
     @services = []
     @registered_vehicles = []
     @collected_fees = 0
-    @fee_matrix = { regular: 100, antique: 25, ev: 200 }
   end
 
   def add_service(service)
