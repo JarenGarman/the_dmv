@@ -2,8 +2,7 @@
 
 # Stores information about a particular registrant
 class Registrant
-  attr_reader :name, :age
-  attr_accessor :license_data
+  attr_reader :name, :age, :license_data
 
   def initialize(name, age, permit = false)
     @name = name

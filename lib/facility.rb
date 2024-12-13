@@ -39,21 +39,21 @@ class Facility
   def administer_written_test(applicant)
     return false unless applicant.age >= 16 && applicant.permit? && @services.include?('Written Test')
 
-    applicant.license_data[:written] = true
+    applicant.pass_written
     true
   end
 
   def administer_road_test(applicant)
     return false unless applicant.license_data[:written] && @services.include?('Road Test')
 
-    applicant.license_data[:license] = true
+    applicant.earn_license
     true
   end
 
   def renew_drivers_license(applicant)
     return false unless applicant.license_data[:license] && @services.include?('Renew License')
 
-    applicant.license_data[:renewed] = true
+    applicant.renew_license
     true
   end
 end
