@@ -16,6 +16,10 @@ class Facility
     @collected_fees = 0
   end
 
+  class << self
+    attr_reader :fee_matrix
+  end
+
   def add_service(service)
     @services << service
   end
@@ -24,7 +28,7 @@ class Facility
     return unless @services.include?('Vehicle Registration')
 
     vehicle.set_registration_date
-    @collected_fees += @fee_matrix[vehicle.plate_type]
+    @collected_fees += self.class.fee_matrix[vehicle.plate_type]
     @registered_vehicles << vehicle
   end
 
