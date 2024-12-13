@@ -9,7 +9,7 @@ class VehicleFactory
                     year: registration[:model_year],
                     make: registration[:make],
                     model: registration[:model],
-                    engine: registration[:engine]
+                    engine: :ev
                   })
     end
   end
