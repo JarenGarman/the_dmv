@@ -49,7 +49,7 @@ describe Facility do
     end
   end
 
-  describe '#add service' do
+  describe '#add_service' do
     it 'can add available services' do
       facility.add_service('New Drivers License')
       facility.add_service('Renew Drivers License')
@@ -58,7 +58,7 @@ describe Facility do
     end
   end
 
-  describe '#register vehicle' do
+  describe '#register_vehicle' do
     let(:second_facility) do
       described_class.new({
                             name: 'DMV Other Branch',
@@ -100,11 +100,16 @@ describe Facility do
       expect(bolt.plate_type).to eq(:ev)
     end
 
-    it 'collects appropriate fees' do
+    it 'collects cheaper fee for antique' do
       facility.register_vehicle(camaro)
+
+      expect(facility.collected_fees).to eq(125)
+    end
+
+    it 'collects more expensive fee for ev' do
       facility.register_vehicle(bolt)
 
-      expect(facility.collected_fees).to eq(325)
+      expect(facility.collected_fees).to eq(300)
     end
 
     it 'does not affect other facilities' do
@@ -116,7 +121,7 @@ describe Facility do
     end
   end
 
-  describe '#administer written test' do
+  describe '#administer_written_test' do
     let(:first_registrant) { Registrant.new('Bruce', 18, true) }
     let(:second_registrant) { Registrant.new('Penny', 16) }
     let(:third_registrant) { Registrant.new('Tucker', 15) }
@@ -170,60 +175,82 @@ describe Facility do
     end
   end
 
-  describe '#administer road test' do
+  describe '#administer_road_test' do
     let(:applicant) { Registrant.new('Bruce', 18, true) }
 
-    context 'when applicant has not completed written test or facility does not offer service' do
+    context 'when facility cannot administer road tests' do
       it 'does not administer test' do
         expect(facility.administer_road_test(applicant)).to be false
       end
     end
 
-    context 'when applicant has completed written test and facility offers service' do
+    context 'when facility can administer road tests' do
       before do
         facility.add_service('Written Test')
         facility.add_service('Road Test')
-        facility.administer_written_test(applicant)
       end
 
-      it 'administers test' do
-        expect(facility.administer_road_test(applicant)).to be true
+      context 'when applicant has not completed written test' do
+        it 'does not administer test' do
+          expect(facility.administer_road_test(applicant)).to be false
+        end
       end
 
-      it 'sets license to true' do
-        facility.administer_road_test(applicant)
+      context 'when applicant has completed written test' do
+        before do
+          facility.administer_written_test(applicant)
+        end
 
-        expect(applicant.license_data).to eq({ written: true, license: true, renewed: false })
+        it 'administers test' do
+          expect(facility.administer_road_test(applicant)).to be true
+        end
+
+        it 'sets license to true' do
+          facility.administer_road_test(applicant)
+
+          expect(applicant.license_data).to eq({ written: true, license: true, renewed: false })
+        end
       end
     end
   end
 
-  describe '#renew drivers license' do
+  describe '#renew_drivers_license' do
     let(:applicant) { Registrant.new('Bruce', 18, true) }
 
-    context 'when applicant is not licensed or facility does not offer service' do
+    context 'when facility cannot renew licenses' do
       it 'does not administer test' do
         expect(facility.renew_drivers_license(applicant)).to be false
       end
     end
 
-    context 'when applicant is licensed and facility offers service' do
+    context 'when facility can renew licenses' do
       before do
         facility.add_service('Written Test')
         facility.add_service('Road Test')
         facility.add_service('Renew License')
         facility.administer_written_test(applicant)
-        facility.administer_road_test(applicant)
       end
 
-      it 'renews license' do
-        expect(facility.renew_drivers_license(applicant)).to be true
+      context 'when applicant is not licensed' do
+        it 'does not administer test' do
+          expect(facility.renew_drivers_license(applicant)).to be false
+        end
       end
 
-      it 'sets renewed to true' do
-        facility.renew_drivers_license(applicant)
+      context 'when applicant is licensed' do
+        before do
+          facility.administer_road_test(applicant)
+        end
 
-        expect(applicant.license_data).to eq({ written: true, license: true, renewed: true })
+        it 'renews license' do
+          expect(facility.renew_drivers_license(applicant)).to be true
+        end
+
+        it 'sets renewed to true' do
+          facility.renew_drivers_license(applicant)
+
+          expect(applicant.license_data).to eq({ written: true, license: true, renewed: true })
+        end
       end
     end
   end
