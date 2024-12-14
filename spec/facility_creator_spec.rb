@@ -28,8 +28,20 @@ describe FacilityCreator do
       }
     end
 
-    it 'returns properly formatted address' do
-      expect(creator.parse_address(facility)).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
+    context 'when facility has a suite number' do
+      it 'returns properly formatted address with suite number' do
+        expect(creator.parse_address(facility)).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
+      end
+    end
+
+    context 'when facility has no suite number' do
+      before do
+        facility.delete(:address__1)
+      end
+
+      it 'returns properly formatted address without suite number' do
+        expect(creator.parse_address(facility)).to eq('2855 Tremont Place Denver CO 80205')
+      end
     end
   end
 end
