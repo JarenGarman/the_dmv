@@ -19,6 +19,10 @@ describe FacilityCreator do
     it 'can create New York facilities' do
       expect(creator.create_facilities(DmvDataService.new.ny_dmv_office_locations).all?(Facility)).to be true
     end
+
+    it 'can create Missouri facilities' do
+      expect(creator.create_facilities(DmvDataService.new.mo_dmv_office_locations).all?(Facility)).to be true
+    end
   end
 
   describe '#parse_name' do
@@ -35,6 +39,14 @@ describe FacilityCreator do
 
       it 'returns name' do
         expect(creator.parse_name(facility)).to eq('LAKE PLACID COUNTY OFFICE')
+      end
+    end
+
+    context 'when given Missouri location' do
+      let(:facility) { { name: 'Harrisonville' } }
+
+      it 'returns name' do
+        expect(creator.parse_name(facility)).to eq('Harrisonville')
       end
     end
   end
@@ -82,6 +94,21 @@ describe FacilityCreator do
         expect(creator.parse_address(facility)).to eq('2693 MAIN STREET LAKE PLACID NY 12946')
       end
     end
+
+    context 'when given Missouri location' do
+      let(:facility) do
+        {
+          address1: '2009 Plaza Dr.',
+          city: 'Harrisonville',
+          state: 'MO',
+          zipcode: '64701'
+        }
+      end
+
+      it 'returns properly formatted address' do
+        expect(creator.parse_address(facility)).to eq('2009 Plaza Dr. Harrisonville MO 64701')
+      end
+    end
   end
 
   describe '#parse_phone' do
@@ -98,6 +125,14 @@ describe FacilityCreator do
 
       it 'returns phone number' do
         expect(creator.parse_phone(facility)).to eq('5188283350')
+      end
+    end
+
+    context 'when given Missouri location' do
+      let(:facility) { { phone: '(816) 884-4133' } }
+
+      it 'returns phone number' do
+        expect(creator.parse_phone(facility)).to eq('(816) 884-4133')
       end
     end
   end
