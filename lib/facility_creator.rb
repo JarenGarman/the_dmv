@@ -48,7 +48,9 @@ class FacilityCreator
     if facility.include?(:phone)
       facility[:phone]
     elsif facility.include?(:public_phone_number)
-      "(#{facility[:public_phone_number][0..2]}) #{facility[:public_phone_number][3..5]}-#{facility[:public_phone_number][6..9]}"
+      "(#{facility[:public_phone_number][0..2]}) " \
+        "#{facility[:public_phone_number][3..5]}-" \
+        "#{facility[:public_phone_number][6..9]}"
     end
   end
 end
