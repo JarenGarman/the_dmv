@@ -98,7 +98,7 @@ describe Registrant do
   end
 
   describe '#earn_permit' do
-    subject(:registrant) { described_class.new('Penny', 15) }
+    let(:registrant) { described_class.new('Penny', 15) }
 
     it 'can earn permit' do
       registrant.earn_permit
