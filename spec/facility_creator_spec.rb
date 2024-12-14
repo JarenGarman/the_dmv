@@ -29,7 +29,7 @@ describe FacilityCreator do
     end
 
     it 'returns properly formatted address' do
-      expect(facility.parse_address).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
+      expect(creator.parse_address(facility)).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
     end
   end
 end
