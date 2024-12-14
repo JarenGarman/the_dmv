@@ -47,7 +47,7 @@ describe FacilityCreator do
 
     context 'when given New York location' do
       it 'returns name' do
-        expect(creator.parse_name(ny_facility)).to eq('LAKE PLACID COUNTY OFFICE')
+        expect(creator.parse_name(ny_facility)).to eq('Lake Placid County Office')
       end
     end
 
@@ -62,7 +62,7 @@ describe FacilityCreator do
     context 'when given Colorado location' do
       context 'when facility has a suite number' do
         it 'returns properly formatted address with suite number' do
-          expect(creator.parse_address(co_facility)).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
+          expect(creator.parse_address(co_facility)).to eq('2855 Tremont Place, Suite 118, Denver, CO 80205')
         end
       end
 
@@ -72,20 +72,20 @@ describe FacilityCreator do
         end
 
         it 'returns properly formatted address without suite number' do
-          expect(creator.parse_address(co_facility)).to eq('2855 Tremont Place Denver CO 80205')
+          expect(creator.parse_address(co_facility)).to eq('2855 Tremont Place, Denver, CO 80205')
         end
       end
     end
 
     context 'when given New York location' do
       it 'returns properly formatted address' do
-        expect(creator.parse_address(ny_facility)).to eq('2693 MAIN STREET LAKE PLACID NY 12946')
+        expect(creator.parse_address(ny_facility)).to eq('2693 Main Street, Lake Placid, NY 12946')
       end
     end
 
     context 'when given Missouri location' do
       it 'returns properly formatted address' do
-        expect(creator.parse_address(mo_facility)).to eq('2009 Plaza Dr. Harrisonville MO 64701')
+        expect(creator.parse_address(mo_facility)).to eq('2009 Plaza Dr., Harrisonville, MO 64701')
       end
     end
   end
@@ -99,7 +99,7 @@ describe FacilityCreator do
 
     context 'when given New York location' do
       it 'returns phone number' do
-        expect(creator.parse_phone(ny_facility)).to eq('5188283350')
+        expect(creator.parse_phone(ny_facility)).to eq('(518) 828-3350')
       end
     end
 
