@@ -13,13 +13,12 @@ class FacilityCreator
   end
 
   def parse_name(facility)
-    facility.fetch_values(:dmv_office, :office_name, :office_type) { nil }.compact.join(' ')
+    facility.fetch_values(:dmv_office, :office_name, :office_type, :name) { nil }.compact.join(' ')
   end
 
   def parse_address(facility)
-    facility.fetch_values(:address_li, :address__1, :street_address_line_1, :city, :state, :zip, :zip_code) do
-      nil
-    end.compact.join(' ')
+    facility.fetch_values(:address_li, :address__1, :street_address_line_1, :address1, :city, :state, :zip, :zip_code,
+                          :zipcode) { nil }.compact.join(' ')
   end
 
   def parse_phone(facility)
