@@ -5,16 +5,24 @@ class FacilityCreator
   def create_facilities(facilities)
     facilities.map do |facility|
       Facility.new({
-                     name: facility[:dmv_office],
+                     name: parse_name(facility),
                      address: parse_address(facility),
-                     phone: facility[:phone]
+                     phone: parse_phone(facility)
                    })
     end
+  end
+
+  def parse_name(facility)
+    facility.fetch_values(:dmv_office, :office_name, :office_type) { nil }.compact.join(' ')
   end
 
   def parse_address(facility)
     facility.fetch_values(:address_li, :address__1, :street_address_line_1, :city, :state, :zip, :zip_code) do
       nil
     end.compact.join(' ')
+  end
+
+  def parse_phone(facility)
+    facility.fetch_values(:phone, :public_phone_number) { nil }.compact.join
   end
 end
