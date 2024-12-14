@@ -61,7 +61,7 @@ describe FacilityCreator do
       end
 
       it 'returns properly formatted address' do
-        expect(creator.parse_address(facility)).to eq('2693 Main Street Lake Placid NY 12946')
+        expect(creator.parse_address(facility)).to eq('2693 MAIN STREET LAKE PLACID NY 12946')
       end
     end
   end
