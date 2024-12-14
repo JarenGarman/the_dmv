@@ -13,7 +13,7 @@ describe FacilityCreator do
 
   describe '#create_facilities' do
     it 'returns array of facilities' do
-      expect(factory.create_facilities(DmvDataService.new.co_dmv_office_locations).all?(Facility)).to be true
+      expect(creator.create_facilities(DmvDataService.new.co_dmv_office_locations).all?(Facility)).to be true
     end
   end
 
