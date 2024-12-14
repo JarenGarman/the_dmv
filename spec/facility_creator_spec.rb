@@ -21,6 +21,24 @@ describe FacilityCreator do
     end
   end
 
+  describe '#parse_name' do
+    context 'when given Colorado location' do
+      let(:facility) { { dmv_office: 'DMV Tremont Branch' } }
+
+      it 'returns name' do
+        expect(creator.parse_name(facility)).to eq('DMV Tremont Branch')
+      end
+    end
+
+    context 'when given New York location' do
+      let(:facility) { { office_name: 'LAKE PLACID', office_type: 'COUNTY OFFICE' } }
+
+      it 'returns name' do
+        expect(creator.parse_name(facility)).to eq('LAKE PLACID COUNTY OFFICE')
+      end
+    end
+  end
+
   describe '#parse_address' do
     context 'when given Colorado location' do
       let(:facility) do
@@ -62,6 +80,24 @@ describe FacilityCreator do
 
       it 'returns properly formatted address' do
         expect(creator.parse_address(facility)).to eq('2693 MAIN STREET LAKE PLACID NY 12946')
+      end
+    end
+  end
+
+  describe '#parse_phone' do
+    context 'when given Colorado location' do
+      let(:facility) { { phone: '(720) 865-4600' } }
+
+      it 'returns phone number' do
+        expect(creator.parse_phone(facility)).to eq('(720) 865-4600')
+      end
+    end
+
+    context 'when given New York location' do
+      let(:facility) { { public_phone_number: '5188283350' } }
+
+      it 'returns phone number' do
+        expect(creator.parse_phone(facility)).to eq('5188283350')
       end
     end
   end

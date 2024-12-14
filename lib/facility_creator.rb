@@ -13,6 +13,8 @@ class FacilityCreator
   end
 
   def parse_address(facility)
-    facility.fetch_values(:address_li, :address__1, :city, :state, :zip) { nil }.compact.join(' ')
+    facility.fetch_values(:address_li, :address__1, :street_address_line_1, :city, :state, :zip, :zip_code) do
+      nil
+    end.compact.join(' ')
   end
 end
