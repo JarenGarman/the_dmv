@@ -31,4 +31,10 @@ class Dmv
 
     @facilities.map(&:registered_vehicles).flatten.count { |vehicle| vehicle.year == year }
   end
+
+  def most_popular_county
+    return if @facilities.map(&:registered_vehicles).empty?
+
+    @facilities.map(&:registered_vehicles).flatten.group_by(&:county).max_by(&:count)[0]
+  end
 end
