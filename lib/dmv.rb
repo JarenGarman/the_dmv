@@ -17,4 +17,10 @@ class Dmv
       facility.services.include?(service)
     end
   end
+
+  def most_popular_make_model
+    @facilities.map(&:registered_vehicles).flatten.group_by do |vehicle|
+      "#{vehicle.make} #{vehicle.model}"
+    end.max_by(&:count)[0]
+  end
 end
