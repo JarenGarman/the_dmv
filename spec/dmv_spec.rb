@@ -94,4 +94,35 @@ describe Dmv do
       end
     end
   end
+
+  describe '#count_model_year' do
+    subject(:count) { dmv.count_model_year(2013) }
+
+    let(:prius) do
+      Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev })
+    end
+    let(:mustang) do
+      Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev })
+    end
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct make and model' do
+        expect(count).to eq(2)
+      end
+    end
+  end
 end
