@@ -63,4 +63,31 @@ describe Dmv do
       expect(dmv.facilities_offering_service('Road Test')).to eq([second_facility, third_facility])
     end
   end
+
+  describe '#most_popular_make_model' do
+    subject(:popular) { dmv.most_popular_make_model }
+
+    let(:prius) { { vin_1_10: 'JTDKN3DP8D', model_year: '2013', make: 'TOYOTA', model: 'Prius Plug-in' } }
+    let(:mustang) { { vin_1_10: 'adbcdef1234', model_year: '2022', make: 'FORD', model: 'Mustang Mach-E' } }
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct make and model' do
+        expect(popular).to eq('TOYOTA Prius Plug-in')
+      end
+    end
+  end
 end
