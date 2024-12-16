@@ -119,4 +119,28 @@ describe Dmv do
       end
     end
   end
+
+  describe '#most_popular_county' do
+    subject(:county) { dmv.most_popular_county }
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct most popular county' do
+        expect(county).to eq('Duval')
+      end
+    end
+  end
 end
