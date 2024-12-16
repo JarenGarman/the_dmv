@@ -26,6 +26,14 @@ describe Dmv do
                    phone: '(720) 865-4600'
                  })
   end
+  let(:prius) do
+    Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev,
+                  county: 'Duval' })
+  end
+  let(:mustang) do
+    Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev,
+                  county: 'Orange' })
+  end
 
   describe '#initialize' do
     it { is_expected.to be_an_instance_of(described_class) }
@@ -67,13 +75,6 @@ describe Dmv do
   describe '#most_popular_make_model' do
     subject(:popular) { dmv.most_popular_make_model }
 
-    let(:prius) do
-      Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev })
-    end
-    let(:mustang) do
-      Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev })
-    end
-
     context 'when no vehicles have been registered' do
       it { is_expected.to be_nil }
     end
@@ -97,13 +98,6 @@ describe Dmv do
 
   describe '#count_model_year' do
     subject(:count) { dmv.count_model_year(2013) }
-
-    let(:prius) do
-      Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev })
-    end
-    let(:mustang) do
-      Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev })
-    end
 
     context 'when no vehicles have been registered' do
       it { is_expected.to be_nil }

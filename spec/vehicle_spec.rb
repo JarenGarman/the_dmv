@@ -4,18 +4,22 @@ require_relative 'spec_helper'
 
 describe Vehicle do
   let(:cruz) do
-    described_class.new({ vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice })
+    described_class.new({ vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice,
+                          county: 'Duval' })
   end
   let(:bolt) do
-    described_class.new({ vin: '987654321abcdefgh', year: 2019, make: 'Chevrolet', model: 'Bolt', engine: :ev })
+    described_class.new({ vin: '987654321abcdefgh', year: 2019, make: 'Chevrolet', model: 'Bolt', engine: :ev,
+                          county: 'Duval' })
   end
   let(:camaro) do
-    described_class.new({ vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice })
+    described_class.new({ vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice,
+                          county: 'Duval' })
   end
 
   describe '#initialize' do
     subject(:cruz) do
-      described_class.new({ vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice })
+      described_class.new({ vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice,
+                            county: 'Duval' })
     end
 
     it { is_expected.not_to be_nil }
