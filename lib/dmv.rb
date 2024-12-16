@@ -19,6 +19,8 @@ class Dmv
   end
 
   def most_popular_make_model
+    return if @facilities.map(&:registered_vehicles).empty?
+
     @facilities.map(&:registered_vehicles).flatten.group_by do |vehicle|
       "#{vehicle.make} #{vehicle.model}"
     end.max_by(&:count)[0]
