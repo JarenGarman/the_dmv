@@ -120,7 +120,7 @@ describe Dmv do
         second_facility.register_vehicle(prius)
       end
 
-      it 'returns correct make and model' do
+      it 'returns correct count by model year' do
         expect(count).to eq(2)
       end
     end
