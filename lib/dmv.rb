@@ -25,4 +25,10 @@ class Dmv
       "#{vehicle.make} #{vehicle.model}"
     end.max_by(&:count)[0]
   end
+
+  def count_model_year(year)
+    return if @facilities.map(&:registered_vehicles).empty?
+
+    @facilities.map(&:registered_vehicles).flatten.count { |vehicle| vehicle.year == year }
+  end
 end
