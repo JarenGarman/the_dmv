@@ -67,8 +67,12 @@ describe Dmv do
   describe '#most_popular_make_model' do
     subject(:popular) { dmv.most_popular_make_model }
 
-    let(:prius) { { vin_1_10: 'JTDKN3DP8D', model_year: '2013', make: 'TOYOTA', model: 'Prius Plug-in' } }
-    let(:mustang) { { vin_1_10: 'adbcdef1234', model_year: '2022', make: 'FORD', model: 'Mustang Mach-E' } }
+    let(:prius) do
+      Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev })
+    end
+    let(:mustang) do
+      Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev })
+    end
 
     context 'when no vehicles have been registered' do
       it { is_expected.to be_nil }
