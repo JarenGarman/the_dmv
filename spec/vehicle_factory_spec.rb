@@ -5,7 +5,9 @@ require_relative 'spec_helper'
 describe VehicleFactory do
   subject(:factory) { described_class.new }
 
-  let(:vehicle) { [{ vin_1_10: 'JTDKN3DP8D', model_year: '2013', make: 'TOYOTA', model: 'Prius Plug-in' }] }
+  let(:vehicle) do
+    [{ vin_1_10: 'JTDKN3DP8D', model_year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', county: 'Duval' }]
+  end
 
   describe '#initialize' do
     it { is_expected.not_to be_nil }

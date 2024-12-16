@@ -10,7 +10,8 @@ class Vehicle
               :model,
               :engine,
               :plate_type,
-              :registration_date
+              :registration_date,
+              :county
 
   def initialize(vehicle_details)
     @vin = vehicle_details[:vin]
@@ -25,6 +26,7 @@ class Vehicle
                   else
                     :regular
                   end
+    @county = vehicle_details[:county]
   end
 
   def antique?

@@ -26,6 +26,14 @@ describe Dmv do
                    phone: '(720) 865-4600'
                  })
   end
+  let(:prius) do
+    Vehicle.new({ vin: 'JTDKN3DP8D', year: '2013', make: 'TOYOTA', model: 'Prius Plug-in', engine: :ev,
+                  county: 'Duval' })
+  end
+  let(:mustang) do
+    Vehicle.new({ vin: 'adbcdef1234', year: '2022', make: 'FORD', model: 'Mustang Mach-E', engine: :ev,
+                  county: 'Orange' })
+  end
 
   describe '#initialize' do
     it { is_expected.to be_an_instance_of(described_class) }
@@ -61,6 +69,78 @@ describe Dmv do
       dmv.add_facility(third_facility)
 
       expect(dmv.facilities_offering_service('Road Test')).to eq([second_facility, third_facility])
+    end
+  end
+
+  describe '#most_popular_make_model' do
+    subject(:popular) { dmv.most_popular_make_model }
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct make and model' do
+        expect(popular).to eq('TOYOTA Prius Plug-in')
+      end
+    end
+  end
+
+  describe '#count_model_year' do
+    subject(:count) { dmv.count_model_year(2013) }
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct count by model year' do
+        expect(count).to eq(2)
+      end
+    end
+  end
+
+  describe '#most_popular_county' do
+    subject(:county) { dmv.most_popular_county }
+
+    context 'when no vehicles have been registered' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'when vehicles have been registered' do
+      before do
+        dmv.add_facility(first_facility)
+        dmv.add_facility(second_facility)
+        first_facility.add_service('Vehicle Registration')
+        second_facility.add_service('Vehicle Registration')
+        first_facility.register_vehicle(prius)
+        first_facility.register_vehicle(mustang)
+        second_facility.register_vehicle(prius)
+      end
+
+      it 'returns correct most popular county' do
+        expect(county).to eq('Duval')
+      end
     end
   end
 end
