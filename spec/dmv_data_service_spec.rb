@@ -26,6 +26,12 @@ describe DmvDataService do
     end
   end
 
+  describe '#ny_veh_registrations' do
+    it 'can load new york vehicle registration data' do
+      expect(dds.ny_veh_registrations.size).to be_an(Integer)
+    end
+  end
+
   describe '#co_dmv_office_locations' do
     it 'can load colorado dmv office locations' do
       expect(dds.co_dmv_office_locations.size).to be_an(Integer)
