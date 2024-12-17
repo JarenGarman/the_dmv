@@ -8,6 +8,7 @@ class FacilityCreator
                      name: parse_name(facility),
                      address: parse_address(facility),
                      phone: parse_phone(facility),
+                     hours: parse_hours(facility),
                      holidays_closed: facility[:holidaysclosed]
                    })
     end
@@ -42,6 +43,20 @@ class FacilityCreator
       "(#{facility[:public_phone_number][0..2]}) " \
         "#{facility[:public_phone_number][3..5]}-" \
         "#{facility[:public_phone_number][6..9]}"
+    end
+  end
+
+  def parse_hours(facility)
+    if facility.include?(:monday_beginning_hours)
+      {
+        monday: "#{facility[:monday_beginning_hours]} - #{facility[:monday_ending_hours]}",
+        tuesday: "#{facility[:tuesday_beginning_hours]} - #{facility[:tuesday_ending_hours]}",
+        wednesday: "#{facility[:wednesday_beginning_hours]} - #{facility[:wednesday_ending_hours]}",
+        thursday: "#{facility[:thursday_beginning_hours]} - #{facility[:thursday_ending_hours]}",
+        friday: "#{facility[:friday_beginning_hours]} - #{facility[:friday_ending_hours]}"
+      }
+    else
+      "#{facility[:hours]}#{facility[:daysopen]}"
     end
   end
 end
