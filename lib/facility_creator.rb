@@ -29,7 +29,7 @@ class FacilityCreator
     "#{unless facility[:street_address_line_1].nil?
          facility[:street_address_line_1].split.map(&:capitalize).join(' ')
        end}#{facility[:address_li]}#{unless facility[:address__1].nil?
-                                       +', ' << facility[:address__1]
+                                       ", #{facility[:address__1]}"
                                      end}#{facility[:address1]}, " \
        "#{facility[:city].split.map(&:capitalize).join(' ')}, #{facility[:state]} " \
        "#{facility[:zip]}#{facility[:zipcode]}#{facility[:zip_code]}"
