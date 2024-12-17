@@ -10,7 +10,7 @@ describe VehicleFactory do
   end
   let(:ny_vehicle) do
     [{ record_type: 'VEH', vin: '9999236', model_year: '1937', make: 'CHRY',
-       county: 'NASSAU' }]
+       county: 'NASSAU', fuel_type: 'GAS' }]
   end
 
   describe '#initialize' do
@@ -76,7 +76,7 @@ describe VehicleFactory do
       end
 
       it 'sets correct engine' do
-        expect(test_vehicle.engine).to be_nil
+        expect(test_vehicle.engine).to eq(:ice)
       end
 
       it 'sets correct county' do
