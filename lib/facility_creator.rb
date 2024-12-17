@@ -7,7 +7,8 @@ class FacilityCreator
       Facility.new({
                      name: parse_name(facility),
                      address: parse_address(facility),
-                     phone: parse_phone(facility)
+                     phone: parse_phone(facility),
+                     holidays_closed: facility[:holidaysclosed]
                    })
     end
   end
