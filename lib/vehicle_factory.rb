@@ -3,13 +3,19 @@
 # Parses API data and creates vehicles
 class VehicleFactory
   def create_vehicles(registrations)
-    registrations.map do |registration|
+    registrations.filter_map do |registration|
+      next unless registration[:record_type].nil? || registration[:record_type] == 'VEH'
+
       Vehicle.new({
-                    vin: registration[:vin_1_10],
+                    vin: "#{registration[:vin_1_10]}#{registration[:vin]}",
                     year: registration[:model_year],
                     make: registration[:make],
                     model: registration[:model],
-                    engine: :ev,
+                    engine: (if registration[:fuel_type] == 'GAS'
+                               :ice
+                             else
+                               :ev
+                             end),
                     county: registration[:county]
                   })
     end
