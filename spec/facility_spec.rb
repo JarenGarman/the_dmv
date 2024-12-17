@@ -7,7 +7,9 @@ describe Facility do
     described_class.new({
                           name: 'DMV Tremont Branch',
                           address: '2855 Tremont Place Suite 118 Denver CO 80205',
-                          phone: '(720) 865-4600'
+                          phone: '(720) 865-4600',
+                          hours: { monday: '9:00 AM - 4:45 PM' },
+                          holidays_closed: 'Thanksgiving (11/28/2024), Christmas (12/25/2024)'
                         })
   end
 
@@ -37,6 +39,14 @@ describe Facility do
 
     it 'has a phone number' do
       expect(facility.phone).to eq('(720) 865-4600')
+    end
+
+    it 'has hours' do
+      expect(facility.hours).to eq({ monday: '9:00 AM - 4:45 PM' })
+    end
+
+    it 'has closed holidays' do
+      expect(facility.holidays_closed).to eq('Thanksgiving (11/28/2024), Christmas (12/25/2024)')
     end
 
     it 'has services' do
