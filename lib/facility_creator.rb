@@ -7,7 +7,9 @@ class FacilityCreator
       Facility.new({
                      name: parse_name(facility),
                      address: parse_address(facility),
-                     phone: parse_phone(facility)
+                     phone: parse_phone(facility),
+                     hours: parse_hours(facility),
+                     holidays_closed: facility[:holidaysclosed]
                    })
     end
   end
@@ -25,23 +27,13 @@ class FacilityCreator
   end
 
   def parse_address(facility)
-    if facility.include?(:street_address_line_1)
-      [
-        facility[:street_address_line_1].split.map(&:capitalize).join(' '),
-        facility[:city].split.map(&:capitalize).join(' '),
-        facility[:state]
-      ].join(', ').concat(' ', facility[:zip_code])
-    elsif facility.include?(:address_li)
-      facility.fetch_values(:address_li, :address__1, :city, :state) do
-        nil
-      end.compact.join(', ').concat(' ', facility[:zip])
-    elsif facility.include?(:address1)
-      [
-        facility[:address1],
-        facility[:city],
-        facility[:state]
-      ].join(', ').concat(' ', facility[:zipcode])
-    end
+    "#{unless facility[:street_address_line_1].nil?
+         facility[:street_address_line_1].split.map(&:capitalize).join(' ')
+       end}#{facility[:address_li]}#{unless facility[:address__1].nil?
+                                       ", #{facility[:address__1]}"
+                                     end}#{facility[:address1]}, " \
+       "#{facility[:city].split.map(&:capitalize).join(' ')}, #{facility[:state]} " \
+       "#{facility[:zip]}#{facility[:zipcode]}#{facility[:zip_code]}"
   end
 
   def parse_phone(facility)
@@ -51,6 +43,20 @@ class FacilityCreator
       "(#{facility[:public_phone_number][0..2]}) " \
         "#{facility[:public_phone_number][3..5]}-" \
         "#{facility[:public_phone_number][6..9]}"
+    end
+  end
+
+  def parse_hours(facility)
+    if facility.include?(:monday_beginning_hours)
+      {
+        monday: "#{facility[:monday_beginning_hours]} - #{facility[:monday_ending_hours]}",
+        tuesday: "#{facility[:tuesday_beginning_hours]} - #{facility[:tuesday_ending_hours]}",
+        wednesday: "#{facility[:wednesday_beginning_hours]} - #{facility[:wednesday_ending_hours]}",
+        thursday: "#{facility[:thursday_beginning_hours]} - #{facility[:thursday_ending_hours]}",
+        friday: "#{facility[:friday_beginning_hours]} - #{facility[:friday_ending_hours]}"
+      }
+    else
+      "#{facility[:hours]}#{facility[:daysopen]}"
     end
   end
 end
