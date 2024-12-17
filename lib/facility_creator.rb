@@ -26,23 +26,13 @@ class FacilityCreator
   end
 
   def parse_address(facility)
-    if facility.include?(:street_address_line_1)
-      [
-        facility[:street_address_line_1].split.map(&:capitalize).join(' '),
-        facility[:city].split.map(&:capitalize).join(' '),
-        facility[:state]
-      ].join(', ').concat(' ', facility[:zip_code])
-    elsif facility.include?(:address_li)
-      facility.fetch_values(:address_li, :address__1, :city, :state) do
-        nil
-      end.compact.join(', ').concat(' ', facility[:zip])
-    elsif facility.include?(:address1)
-      [
-        facility[:address1],
-        facility[:city],
-        facility[:state]
-      ].join(', ').concat(' ', facility[:zipcode])
-    end
+    "#{unless facility[:street_address_line_1].nil?
+         facility[:street_address_line_1].split.map(&:capitalize).join(' ')
+       end}#{facility[:address_li]}#{unless facility[:address__1].nil?
+                                       +', ' << facility[:address__1]
+                                     end}#{facility[:address1]}, " \
+       "#{facility[:city].split.map(&:capitalize).join(' ')}, #{facility[:state]} " \
+       "#{facility[:zip]}#{facility[:zipcode]}#{facility[:zip_code]}"
   end
 
   def parse_phone(facility)
