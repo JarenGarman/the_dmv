@@ -11,7 +11,11 @@ class VehicleFactory
                     year: registration[:model_year],
                     make: registration[:make],
                     model: registration[:model],
-                    engine: (:ev if registration[:record_type].nil?),
+                    engine: (if registration[:fuel_type] == 'GAS'
+                               :ice
+                             else
+                               :ev
+                             end),
                     county: registration[:county]
                   })
     end
