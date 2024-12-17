@@ -21,9 +21,9 @@ class Dmv
   def most_popular_make_model
     return if @facilities.map(&:registered_vehicles).empty?
 
-    @facilities.map(&:registered_vehicles).flatten.group_by do |vehicle|
+    @facilities.map(&:registered_vehicles).flatten.reject { |vehicle| vehicle.model.nil? }.group_by do |vehicle|
       "#{vehicle.make} #{vehicle.model}"
-    end.max_by(&:count)[0]
+    end.max_by { |_make_model, vehicle_array| vehicle_array.length }[0]
   end
 
   def count_model_year(year)
@@ -35,6 +35,8 @@ class Dmv
   def most_popular_county
     return if @facilities.map(&:registered_vehicles).empty?
 
-    @facilities.map(&:registered_vehicles).flatten.group_by(&:county).max_by(&:count)[0]
+    @facilities.map(&:registered_vehicles).flatten.group_by(&:county).max_by do |_county, vehicle_array|
+      vehicle_array.length
+    end[0]
   end
 end
